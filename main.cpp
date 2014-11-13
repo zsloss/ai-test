@@ -27,24 +27,37 @@ class Person {
     private:
         static int people;
         int id;
+        void init();
 };
 
 int Person::people = 0;
 
-Person::Person() {
+void Person::init() {
     id = ++people; 
+    hunger = 0;
+    cout << name << " is born." << endl;
+}
+
+Person::Person() {
     name = "Person " + int_to_string(id);
+    init();
 }
 
 Person::Person(string n) {
-    Person();
     name = n;
+    init();
 }
 
 int main(int argc, char* argv[]) {
-    cout << "Hello, idiots!" << endl;
-    Person p = Person("Twatmongrel");
-   cout << rnd_gen(1, 6) << endl;
+    cout << "** AI TEST **" << endl << endl;
+    Person p = Person("Crash Test Dummy");
+    for (; p.hunger < 100; p.hunger++) {
+        cout << ".";
+        if (p.hunger > 75) {
+            cout << p.name << " eats." << endl;
+            break;
+        }
+    }
 }
 
 
