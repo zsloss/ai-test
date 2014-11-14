@@ -24,6 +24,7 @@ class Person {
         string name;
         Person();
         Person(string);
+        void update();
     private:
         static int people;
         int id;
@@ -48,16 +49,16 @@ Person::Person(string n) {
     init();
 }
 
+void Person::update() {
+    hunger++;
+    cout << ".";
+}
+
 int main(int argc, char* argv[]) {
     cout << "** AI TEST **" << endl << endl;
     Person p = Person("Crash Test Dummy");
-    for (; p.hunger < 100; p.hunger++) {
-        cout << ".";
-        if (p.hunger > 75) {
-            cout << p.name << " eats." << endl;
-            break;
-        }
-    }
+    for (int i = 0; i < 100; i++)
+        p.update();
 }
 
 
