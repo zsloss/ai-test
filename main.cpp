@@ -25,6 +25,10 @@ class Person {
         Person();
         Person(string);
         void update();
+        void inform(string);
+        void inform(Person&, string);
+        void eat();
+        void say_hello(Person&);
     private:
         static int people;
         int id;
@@ -35,12 +39,13 @@ int Person::people = 0;
 
 void Person::init() {
     id = ++people; 
+    if (name.empty())
+        name = "Person " + int_to_string(id);
     hunger = 0;
     cout << name << " is born." << endl;
 }
 
 Person::Person() {
-    name = "Person " + int_to_string(id);
     init();
 }
 
@@ -51,14 +56,39 @@ Person::Person(string n) {
 
 void Person::update() {
     hunger++;
-    cout << ".";
+    if (hunger > 75) inform("hungry");
+}
+
+void Person::inform(string msg) {
+    if (msg == "hungry") {
+        if (rnd_gen(1, 100) < hunger)
+            eat();
+    }
+    else cout << "Error: Unknown inform message" << endl;
+}
+
+void Person::inform(Person &p, string msg) {
+    if (msg == "enters")
+        say_hello(p);
+    else cout << "Error: Unknown inform message" << endl;
+}
+
+void Person::eat() {
+    hunger = 0;
+    cout << name << " eats." << endl;
+}
+
+void Person::say_hello(Person &p) {
+    cout << name << ": \"Hello, " << p.name << "!\"" << endl;
 }
 
 int main(int argc, char* argv[]) {
     cout << "** AI TEST **" << endl << endl;
-    Person p = Person("Crash Test Dummy");
+    Person p1 = Person();
     for (int i = 0; i < 100; i++)
-        p.update();
+        p1.update();
+    Person p2 = Person();
+    p1.inform(p2, "enters");
 }
 
 
