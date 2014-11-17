@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <random>
+#include <vector>
 
 using namespace std;
 
@@ -28,11 +29,12 @@ class Person {
         void inform(string);
         void inform(Person&, string);
         void eat();
-        void say_hello(Person&);
+        void greet(Person&);
     private:
         static int people;
         int id;
         void init();
+        Person *interacting;
 };
 
 int Person::people = 0;
@@ -64,13 +66,17 @@ void Person::inform(string msg) {
         if (rnd_gen(1, 100) < hunger)
             eat();
     }
-    else cout << "Error: Unknown inform message" << endl;
+    else cerr << "Error: Unknown inform message" << endl;
 }
 
 void Person::inform(Person &p, string msg) {
     if (msg == "enters")
-        say_hello(p);
-    else cout << "Error: Unknown inform message" << endl;
+        greet(p);
+    else if (msg == "greets") {
+        if (interacting->id != p.id)
+            greet(p);
+    }
+    else cerr << "Error: Unknown inform message" << endl;
 }
 
 void Person::eat() {
@@ -78,8 +84,10 @@ void Person::eat() {
     cout << name << " eats." << endl;
 }
 
-void Person::say_hello(Person &p) {
+void Person::greet(Person &p) {
     cout << name << ": \"Hello, " << p.name << "!\"" << endl;
+    interacting = &p;
+    p.inform(*this, "greets");
 }
 
 int main(int argc, char* argv[]) {
@@ -89,6 +97,7 @@ int main(int argc, char* argv[]) {
         p1.update();
     Person p2 = Person();
     p1.inform(p2, "enters");
+    vector<Person> people = {Person(), Person()};
 }
 
 
