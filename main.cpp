@@ -1,33 +1,17 @@
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <random>
 #include <vector>
-
-using namespace std;
-
-string int_to_string(int x) {
-    ostringstream ss;
-    ss << x;
-    return ss.str();
-}
-
-int rnd_gen(int min, int max) {
-    static random_device rd;
-    static default_random_engine generator(rd());
-    uniform_int_distribution<int> uni_dist(min, max);
-    return uni_dist(generator);
-}
+#include "library.h"
 
 class Person {
     public:
         int hunger;
-        string name;
+        std::string name;
         Person();
-        Person(string);
+        Person(std::string);
         void update();
-        void inform(string);
-        void inform(Person&, string);
+        void inform(std::string);
+        void inform(Person&, std::string);
         void eat();
         void greet(Person&);
     private:
@@ -44,14 +28,14 @@ void Person::init() {
     if (name.empty())
         name = "Person " + int_to_string(id);
     hunger = 0;
-    cout << name << " is born." << endl;
+    std::cout << name << " is born." << std::endl;
 }
 
 Person::Person() {
     init();
 }
 
-Person::Person(string n) {
+Person::Person(std::string n) {
     name = n;
     init();
 }
@@ -61,43 +45,43 @@ void Person::update() {
     if (hunger > 75) inform("hungry");
 }
 
-void Person::inform(string msg) {
+void Person::inform(std::string msg) {
     if (msg == "hungry") {
         if (rnd_gen(1, 100) < hunger)
             eat();
     }
-    else cerr << "Error: Unknown inform message" << endl;
+    else std::cerr << "Error: Unknown inform message" << std::endl;
 }
 
-void Person::inform(Person &p, string msg) {
+void Person::inform(Person &p, std::string msg) {
     if (msg == "enters")
         greet(p);
     else if (msg == "greets") {
         if (interacting->id != p.id)
             greet(p);
     }
-    else cerr << "Error: Unknown inform message" << endl;
+    else std::cerr << "Error: Unknown inform message" << std::endl;
 }
 
 void Person::eat() {
     hunger = 0;
-    cout << name << " eats." << endl;
+    std::cout << name << " eats." << std::endl;
 }
 
 void Person::greet(Person &p) {
-    cout << name << ": \"Hello, " << p.name << "!\"" << endl;
+    std::cout << name << ": \"Hello, " << p.name << "!\"" << std::endl;
     interacting = &p;
     p.inform(*this, "greets");
 }
 
 int main(int argc, char* argv[]) {
-    cout << "** AI TEST **" << endl << endl;
+    std::cout << "** AI TEST **" << std::endl << std::endl;
     Person p1 = Person();
     for (int i = 0; i < 100; i++)
         p1.update();
     Person p2 = Person();
     p1.inform(p2, "enters");
-    vector<Person> people = {Person(), Person()};
+    std::vector<Person> people = {Person(), Person()};
 }
 
 
