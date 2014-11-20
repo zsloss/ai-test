@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "library.h"
-#include "Person.h"
+#include "person.h"
 
 int main(int argc, char* argv[]) {
     std::cout << "** AI TEST **" << std::endl << std::endl;

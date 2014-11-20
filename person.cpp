@@ -1,4 +1,8 @@
-#include "Person.h"
+#include "person.h"
+
+/*
+Rule: Only one non-const method is allowed to be public - the update() method.
+*/
 
 int Person::people = 0;
 
