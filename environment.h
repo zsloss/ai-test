@@ -13,7 +13,6 @@ class Environment {
         Environment();
         ~Environment();
         Audio* get_audio() const;
-        std::vector<Speech_packet*> add_speech(Speech_packet*);
         void update();
     private:
         Audio* audio;
@@ -26,7 +25,7 @@ class Audio {
 
     public:
         Audio();
-        std::vector<Speech_packet*> get_speech() const;
+        std::vector<Speech_packet*>& get_speech();
         void add_speech(Speech_packet*);
     private:
         std::vector<Speech_packet*> speech;

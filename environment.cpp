@@ -29,7 +29,7 @@ void Audio::update() {
     speech.clear();
 }
 
-std::vector<Speech_packet*> Audio::get_speech() const {
+std::vector<Speech_packet*>& Audio::get_speech() {
     return speech;
 }
 
