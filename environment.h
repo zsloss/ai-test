@@ -3,6 +3,13 @@
 
 class Environment {
     public:
+        Environment();
+    private:
+        Audio audio;
+};
+
+class Audio {
+    public:
     private:
 };
 
