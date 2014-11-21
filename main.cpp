@@ -3,13 +3,14 @@
 #include <vector>
 #include "library.h"
 #include "person.h"
+#include "environment.h"
 
 int main(int argc, char* argv[]) {
-    std::cout << "** AI TEST **" << std::endl << std::endl;
+    std::cout << "\n** AI TEST **\n" << std::endl;
+    Environment env = Environment();
     Person p1 = Person();
-    for (int i = 0; i < 100; i++)
-        p1.update();
     Person p2 = Person();
+    p1.set_environment(env);
+    p2.set_environment(env);
     p1.inform(p2, "enters");
-    std::vector<Person> people = {Person(), Person()};
 }

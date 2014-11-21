@@ -2,24 +2,28 @@
 #define PERSON_H
 
 #include <string>
-#include <iostream>
-#include "library.h"
+#include "environment.h"
+
+class Environment;
 
 class Person {
     public:
-        int hunger;
         std::string name;
         Person();
         Person(std::string);
         void update();
+        Environment* get_environment() const;
+        void set_environment(Environment&);
         void inform(std::string);
         void inform(Person&, std::string);
-        void eat();
-        void greet(Person&);
     private:
         static int people;
         int id;
+        int hunger;
+        Environment* environment;
         void init();
+        void eat();
+        void greet(Person&);
         Person *interacting;
 };
 

@@ -1,4 +1,7 @@
 #include "person.h"
+#include <iostream>
+#include "speech.h"
+#include "library.h"
 
 /*
 Rule: Only one non-const method is allowed to be public - the update() method.
@@ -28,6 +31,14 @@ void Person::update() {
     if (hunger > 75) inform("hungry");
 }
 
+Environment* Person::get_environment() const {
+    return environment;
+}
+
+void Person::set_environment(Environment &env) {
+    environment = &env;
+}
+
 void Person::inform(std::string msg) {
     if (msg == "hungry") {
         if (rnd_gen(1, 100) < hunger)
@@ -52,7 +63,6 @@ void Person::eat() {
 }
 
 void Person::greet(Person &p) {
-    std::cout << name << ": \"Hello, " << p.name << "!\"" << std::endl;
     interacting = &p;
-    p.inform(*this, "greets");
+    get_environment()->get_audio()->add_speech(new Speech_packet(*this, "greeting", "Howdy, " + p.name + "!", p));
 }
