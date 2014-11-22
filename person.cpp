@@ -13,10 +13,11 @@ int Person::next_id = 0;
 std::vector<Person*> Person::people;
 
 void Person::init() {
-    id = next_id++; 
+    
     if (name.empty())
         name = "Person " + int_to_string(id);
     hunger = 0;
+    mind = new Mind(this);
     std::cout << name << " is born." << std::endl;
     people.push_back(this);
 }
@@ -35,13 +36,17 @@ int Person::get_id() const {
     return id;
 }
 
-Person::Person() {
+Person::Person() : id(next_id++) {
     init();
 }
 
-Person::Person(std::string n) {
+Person::Person(std::string n) : id(next_id++) {
     name = n;
     init();
+}
+
+Person::~Person() {
+    delete mind;
 }
 
 void Person::update() {

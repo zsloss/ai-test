@@ -4,12 +4,16 @@
 #include <string>
 #include <vector>
 #include "environment.h"
+#include "mind.h"
+
+class Mind;
 
 class Person {
     public:
         std::string name;
         Person();
         Person(std::string);
+        ~Person();
 
         /**
          * Retrieves a pointer to a Person object.
@@ -28,7 +32,8 @@ class Person {
     private:
         static int next_id;
         static std::vector<Person*> people;
-        int id;
+        const int id;
+        const Mind* mind;
         int hunger;
         Environment* environment;
         void init();
