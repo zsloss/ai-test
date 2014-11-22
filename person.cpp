@@ -1,5 +1,6 @@
 #include "person.h"
 #include <iostream>
+#include <stdexcept>
 #include "speech.h"
 #include "library.h"
 
@@ -7,14 +8,31 @@
 Rule: Only one non-const method is allowed to be public - the update() method.
 */
 
-int Person::people = 0;
+int Person::next_id = 0;
+
+std::vector<Person*> Person::people;
 
 void Person::init() {
-    id = ++people; 
+    id = next_id++; 
     if (name.empty())
         name = "Person " + int_to_string(id);
     hunger = 0;
     std::cout << name << " is born." << std::endl;
+    people.push_back(this);
+}
+
+Person* Person::get_person(const int _id) {
+    try {
+        return people.at(_id);
+    }
+    catch (const std::out_of_range& e) {
+        std::cerr << "Error: Person ID out of range." << std::endl;
+    }
+    return nullptr;
+}
+
+int Person::get_id() const {
+    return id;
 }
 
 Person::Person() {
@@ -47,12 +65,12 @@ void Person::inform(std::string msg) {
     else std::cerr << "Error: Unknown inform message" << std::endl;
 }
 
-void Person::inform(Person &p, std::string msg) {
+void Person::inform(int p_id, std::string msg) {
     if (msg == "enters")
-        greet(p);
+        greet(p_id);
     else if (msg == "greets") {
-        if (interacting->id != p.id)
-            greet(p);
+        if (interacting != p_id)
+            greet(p_id);
     }
     else std::cerr << "Error: Unknown inform message" << std::endl;
 }
@@ -62,7 +80,16 @@ void Person::eat() {
     std::cout << name << " eats." << std::endl;
 }
 
-void Person::greet(Person &p) {
-    interacting = &p;
-    get_environment()->get_audio()->add_speech(new Speech_packet(*this, "greeting", "Howdy, " + p.name + "!", p));
+void Person::listen() {
+    auto all_speech = get_environment()->get_audio()->get_speech();
+    std::vector<Speech_packet*> my_speech;  
+    for (auto s: all_speech) {
+        if (s->get_target_id() == id)
+            my_speech.push_back(s);
+    }
+}
+
+void Person::greet(int p_id) {
+    interacting = p_id;
+    get_environment()->get_audio()->add_speech(new Speech_packet(id, "greeting", "Howdy, " + get_person(p_id)->name + "!", p_id));
 }

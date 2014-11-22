@@ -1,19 +1,17 @@
 #ifndef SPEECH_H
 #define SPEECH_H
 #include <string>
-#include "person.h"
-
-class Person;
 
 class Speech_packet {
     public:
-        Speech_packet(Person&, std::string, std::string, Person&);
+        Speech_packet(int, std::string, std::string, int);
         std::string get_category() const;
         std::string get_content() const;
-        Person get_speaker() const;
+        int get_speaker_id() const;
+        int get_target_id() const;
     private:
         std::string category, content;
-        Person *speaker, *target;
+        int speaker_id, target_id;
 };
 
 #endif

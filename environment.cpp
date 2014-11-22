@@ -1,5 +1,6 @@
 #include "environment.h"
 #include <iostream>
+#include "person.h"
 
 Environment::Environment() {
     audio = new Audio();
@@ -35,5 +36,5 @@ std::vector<Speech_packet*>& Audio::get_speech() {
 
 void Audio::add_speech(Speech_packet *packet) {
     get_speech().push_back(packet);
-    std::cout << packet->get_speaker().name << ": \"" << packet->get_content() << "\"" << std::endl;
+    std::cout << Person::get_person(packet->get_speaker_id())->name << ": \"" << packet->get_content() << "\"" << std::endl;
 }

@@ -12,6 +12,6 @@ int main(int argc, char* argv[]) {
     Person p2 = Person();
     p1.set_environment(env);
     p2.set_environment(env);
-    p1.inform(p2, "enters");
+    p1.inform(p2.get_id(), "enters");
     env.update();
 }

@@ -2,6 +2,7 @@
 #define PERSON_H
 
 #include <string>
+#include <vector>
 #include "environment.h"
 
 class Environment;
@@ -11,20 +12,32 @@ class Person {
         std::string name;
         Person();
         Person(std::string);
+
+        /**
+         * Retrieves a pointer to a Person object.
+         *
+         * @param _id the ID of the Person.
+         * @return A pointer to the Person or nullptr if there is an error.
+         */
+        static Person* get_person(const int _id);
+
+        int get_id() const;
         void update();
         Environment* get_environment() const;
         void set_environment(Environment&);
         void inform(std::string);
-        void inform(Person&, std::string);
+        void inform(int, std::string);
     private:
-        static int people;
+        static int next_id;
+        static std::vector<Person*> people;
         int id;
         int hunger;
         Environment* environment;
         void init();
+        void listen();
         void eat();
-        void greet(Person&);
-        Person *interacting;
+        void greet(int);
+        int interacting;
 };
 
 #endif
