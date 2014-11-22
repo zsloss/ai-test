@@ -16,5 +16,7 @@ int main(int argc, char* argv[]) {
     p1.set_environment(env);
     p2.set_environment(env);
     p1.inform(p2.get_id(), "enters");
+    p1.update();
+    p2.update();
     env.update();
 }

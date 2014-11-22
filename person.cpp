@@ -47,6 +47,7 @@ Person::Person(std::string n) {
 void Person::update() {
     hunger++;
     if (hunger > 75) inform("hungry");
+    listen();
 }
 
 Environment* Person::get_environment() const {
@@ -86,6 +87,11 @@ void Person::listen() {
     for (auto s: all_speech) {
         if (s->get_target_id() == id)
             my_speech.push_back(s);
+    }
+    for (auto s: my_speech) {
+        int spk = s->get_speaker_id(); 
+        if (s->get_category() == "greeting" && spk != interacting)
+            greet(spk);
     }
 }
 
