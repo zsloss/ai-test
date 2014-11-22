@@ -5,8 +5,6 @@
 #include <vector>
 #include "environment.h"
 
-class Environment;
-
 class Person {
     public:
         std::string name;
@@ -37,6 +35,7 @@ class Person {
         void listen();
         void eat();
         void greet(int);
+        void speak(std::string, std::string, int);
         int interacting;
 };
 

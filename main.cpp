@@ -5,6 +5,9 @@
 #include "person.h"
 #include "environment.h"
 
+class Person;
+class Environment;
+
 int main(int argc, char* argv[]) {
     std::cout << "\n** AI TEST **\n" << std::endl;
     Environment env = Environment();

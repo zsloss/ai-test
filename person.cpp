@@ -89,7 +89,11 @@ void Person::listen() {
     }
 }
 
-void Person::greet(int p_id) {
-    interacting = p_id;
-    get_environment()->get_audio()->add_speech(new Speech_packet(id, "greeting", "Howdy, " + get_person(p_id)->name + "!", p_id));
+void Person::greet(int tgt) {
+    interacting = tgt;
+    speak("greeting", "Howdy, " + get_person(tgt)->name + "!", tgt);
+}
+
+void Person::speak(std::string category, std::string content, int tgt = -1) {
+    get_environment()->get_audio()->add_speech(new Speech_packet(id, category, content, tgt));
 }
