@@ -8,6 +8,7 @@ class Person;
 class Mind {
     public:
         Mind(Person*);
+        int interacting;
     private:
         Person *me;
 };

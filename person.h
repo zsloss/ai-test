@@ -27,21 +27,22 @@ class Person {
         void update();
         Environment* get_environment() const;
         void set_environment(Environment&);
-        void inform(std::string);
-        void inform(int, std::string);
+        void enter(Environment&);
     private:
         static int next_id;
         static std::vector<Person*> people;
         const int id;
-        const Mind* mind;
+        Mind* mind;
         int hunger;
         Environment* environment;
         void init();
         void listen();
+        void look();
         void eat();
         void greet(int);
         void speak(std::string, std::string, int);
-        int interacting;
+        void inform(std::string);
+        void inform(int, std::string);
 };
 
 #endif

@@ -26,6 +26,16 @@ Visual* Environment::get_visual() const {
     return visual;
 }
 
+void Environment::add_person(int p_id) {
+    people.insert(p_id);
+    get_visual()->add_person(p_id);
+}
+
+void Environment::remove_person(int p_id) {
+    people.erase(p_id);
+    get_visual()->remove_person(p_id);
+}
+
 Audio::Audio() {
 
 }
@@ -50,6 +60,18 @@ Visual::Visual() {
 
 }
 
+std::unordered_set<int>& Visual::get_people() {
+    return people;
+}
+
 void Visual::update() {
 
+}
+
+void Visual::add_person(int p_id) {
+    people.insert(p_id);
+}
+
+void Visual::remove_person(int p_id) {
+    people.erase(p_id);
 }
