@@ -41,8 +41,8 @@ class Person {
         void eat();
         void greet(int);
         void speak(std::string, std::string, int);
-        void inform(std::string);
-        void inform(int, std::string);
+        //void inform(std::string);
+        //void inform(int, std::string);
 };
 
 #endif

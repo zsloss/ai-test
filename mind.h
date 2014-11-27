@@ -2,15 +2,19 @@
 #define MIND_H
 
 #include "person.h"
+#include <unordered_map>
 
 class Person;
 
 class Mind {
+
     public:
         Mind(Person*);
-        int interacting;
+        void add_relation(int);
+        bool knows(int);
     private:
-        Person *me;
+        Person* me;
+        std::unordered_map<int, int> relations;        
 };
 
 #endif

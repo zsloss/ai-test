@@ -51,8 +51,8 @@ Person::~Person() {
 }
 
 void Person::update() {
-    hunger++;
-    if (hunger > 75) inform("hungry");
+    //hunger++;
+    //if (hunger > 75) inform("hungry");
     listen();
     look();
 }
@@ -65,25 +65,23 @@ void Person::set_environment(Environment &env) {
     environment = &env;
 }
 
-// unused
-void Person::inform(std::string msg) {
-    if (msg == "hungry") {
-        if (rnd_gen(1, 100) < hunger)
-            eat();
-    }
-    else std::cerr << "Error: Unknown inform message" << std::endl;
-}
+// void Person::inform(std::string msg) {
+//     if (msg == "hungry") {
+//         if (rnd_gen(1, 100) < hunger)
+//             eat();
+//     }
+//     else std::cerr << "Error: Unknown inform message" << std::endl;
+// }
 
-// unused
-void Person::inform(int p_id, std::string msg) {
-    if (msg == "enters")
-        greet(p_id);
-    else if (msg == "greets") {
-        if (mind->interacting != p_id)
-            greet(p_id);
-    }
-    else std::cerr << "Error: Unknown inform message" << std::endl;
-}
+// void Person::inform(int p_id, std::string msg) {
+//     if (msg == "enters")
+//         greet(p_id);
+//     else if (msg == "greets") {
+//         if (mind->interacting != p_id)
+//             greet(p_id);
+//     }
+//     else std::cerr << "Error: Unknown inform message" << std::endl;
+// }
 
 void Person::eat() {
     hunger = 0;
@@ -91,28 +89,40 @@ void Person::eat() {
 }
 
 void Person::listen() {
+
+    // Get all surrounding speech.
     auto heard_speech = get_environment()->get_audio()->get_speech();
+    
+    // Store all speech directed to me.
     std::vector<Speech_packet*> my_speech;  
     for (auto s: heard_speech) {
         if (s->get_target_id() == id)
             my_speech.push_back(s);
     }
+
+    // Loop over all speech directed to me.
     for (auto s: my_speech) {
         int spk = s->get_speaker_id();
-        if (s->get_category() == "greeting" && spk != mind->interacting)
+
+        // If they are greeting me, greet them back.
+        if (s->get_category() == "greeting" && !mind->knows(spk))
             greet(spk);
     }
 }
 
 void Person::look() {
+
+    // Get all visible people.
     auto seen_people = get_environment()->get_visual()->get_people();
+
+    // Loop over all visible people.
     for (auto s: seen_people)
-        if (s != mind->interacting && s != id)
+        if (!mind->knows(s) && s != id)
             greet(s);
 }
 
 void Person::greet(int tgt) {
-    mind->interacting = tgt;
+    mind->add_relation(tgt);
     speak("greeting", "Howdy, " + get_person(tgt)->name + "!", tgt);
 }
 
