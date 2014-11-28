@@ -15,7 +15,7 @@ void Body::update() {
 
 void Body::eat() {
     hunger = 0;
-    std::cout << me->name << " eats." << std::endl;
+    std::cout << me->get_name() << " eats." << std::endl;
 }
 
 void Body::listen() {
@@ -53,7 +53,7 @@ void Body::look() {
 
 void Body::greet(int tgt) {
     mind->add_relation(tgt);
-    speak("greeting", "Howdy, " + People::get_person(tgt)->name + "!", tgt);
+    speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
 }
 
 void Body::speak(std::string category, std::string content, int tgt = -1) {
@@ -72,5 +72,5 @@ void Body::set_environment(Environment &env) {
 void Body::enter(Environment &env) {
     get_environment()->remove_person(id);
     set_environment(env);
-    std::cout << me->name << " enters a new place..." << std::endl;
+    std::cout << me->get_name() << " enters a new place..." << std::endl;
 }

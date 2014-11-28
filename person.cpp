@@ -27,10 +27,6 @@ std::vector<Person*>& People::get_people() {
     return people;
 }
 
-int Person::get_id() const {
-    return id;
-}
-
 Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
     if (n.empty())
         name = "Person " + int_to_string(id);
@@ -38,13 +34,21 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
         name = n;
     mind = new Mind(this, body);
     body = new Body(this, mind, env);
-    std::cout << name << " is born." << std::endl;
+    std::cout << get_name() << " is born." << std::endl;
     People::get_people().push_back(this);
 }
 
 Person::~Person() {
     delete mind;
     delete body;
+}
+
+std::string& Person::get_name() {
+    return name;
+}
+
+int Person::get_id() const {
+    return id;
 }
 
 void Person::update() {

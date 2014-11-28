@@ -14,7 +14,15 @@ class Body;
 class People {
     public:
         static int get_next_id();
+
+        /**
+         * Retrieves a pointer to a Person object.
+         *
+         * @param _id the ID of the Person.
+         * @return A pointer to the Person or nullptr if there is an error.
+         */
         static Person* get_person(const int _id);
+
         static std::vector<Person*>& get_people();
     private:
         static int next_id;
@@ -25,22 +33,15 @@ class Person {
 
     friend class People;
 
-    public:
-        std::string name;
+    public:        
         Person(Environment &env, std::string n = "");
-        ~Person();
-
-        /**
-         * Retrieves a pointer to a Person object.
-         *
-         * @param _id the ID of the Person.
-         * @return A pointer to the Person or nullptr if there is an error.
-         */
-        
+        ~Person();       
         int get_id() const;
+        std::string& get_name();
         void update();
     private:        
         const int id;
+        std::string name;
         Mind* mind;
         Body* body;
 };
