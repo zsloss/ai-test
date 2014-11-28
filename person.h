@@ -5,13 +5,29 @@
 #include <vector>
 #include "environment.h"
 #include "mind.h"
+#include "body.h"
 
+class Person;
 class Mind;
+class Body;
+
+class People {
+    public:
+        static int get_next_id();
+        static Person* get_person(const int _id);
+        static std::vector<Person*>& get_people();
+    private:
+        static int next_id;
+        static std::vector<Person*> people;
+};
 
 class Person {
+
+    friend class People;
+
     public:
         std::string name;
-        Person(std::string n = "");
+        Person(Environment &env, std::string n = "");
         ~Person();
 
         /**
@@ -20,25 +36,13 @@ class Person {
          * @param _id the ID of the Person.
          * @return A pointer to the Person or nullptr if there is an error.
          */
-        static Person* get_person(const int _id);
-
+        
         int get_id() const;
         void update();
-        Environment* get_environment() const;
-        void set_environment(Environment&);
-        void enter(Environment&);
-    private:
-        static int next_id;
-        static std::vector<Person*> people;
+    private:        
         const int id;
         Mind* mind;
-        int hunger;
-        Environment* environment;
-        void listen();
-        void look();
-        void eat();
-        void greet(int);
-        void speak(std::string, std::string, int);
+        Body* body;
 };
 
 #endif

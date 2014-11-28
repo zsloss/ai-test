@@ -53,7 +53,7 @@ std::vector<Speech_packet*>& Audio::get_speech() {
 
 void Audio::add_speech(Speech_packet *packet) {
     get_speech().push_back(packet);
-    std::cout << Person::get_person(packet->get_speaker_id())->name << ": \"" << packet->get_content() << "\"" << std::endl;
+    std::cout << People::get_person(packet->get_speaker_id())->name << ": \"" << packet->get_content() << "\"" << std::endl;
 }
 
 Visual::Visual() {

@@ -1,7 +1,8 @@
 #include "mind.h"
 
-Mind::Mind(Person* _me) {
+Mind::Mind(Person* _me, Body* _body) : id(_me->get_id()) {
     me = _me;
+    body = _body;
 }
 
 void Mind::add_relation(int p_id) {

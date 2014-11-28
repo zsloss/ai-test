@@ -11,13 +11,8 @@ class Environment;
 int main(int argc, char* argv[]) {
     std::cout << "\n** AI TEST **\n" << std::endl;
     Environment env = Environment();
-    Environment testenv = Environment();
-    Person p1 = Person();
-    Person p2 = Person();
-    p1.set_environment(env);
-    p2.set_environment(env);
-    p1.enter(testenv);
-    p2.enter(testenv);
+    Person p1 = Person(env);
+    Person p2 = Person(env);
     p1.update();
     p2.update();
     env.update();
