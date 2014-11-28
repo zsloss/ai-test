@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
     std::cout << "\n** AI TEST **\n" << std::endl;
     Environment env = Environment();
     Environment testenv = Environment();
-    Person p1 = Person("Matt");
-    Person p2 = Person("Duncan");
+    Person p1 = Person();
+    Person p2 = Person();
     p1.set_environment(env);
     p2.set_environment(env);
     p1.enter(testenv);

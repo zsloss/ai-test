@@ -13,16 +13,6 @@ int Person::next_id = 0;
 
 std::vector<Person*> Person::people;
 
-void Person::init() {
-    
-    if (name.empty())
-        name = "Person " + int_to_string(id);
-    hunger = 0;
-    mind = new Mind(this);
-    std::cout << name << " is born." << std::endl;
-    people.push_back(this);
-}
-
 Person* Person::get_person(const int _id) {
     try {
         return people.at(_id - 1); // IDs start at 1, so adjust for zero-indexing.
@@ -37,13 +27,15 @@ int Person::get_id() const {
     return id;
 }
 
-Person::Person() : id(++next_id) {
-    init();
-}
-
 Person::Person(std::string n) : id(++next_id) {
-    name = n;
-    init();
+    if (n.empty())
+        name = "Person " + int_to_string(id);
+    else
+        name = n;
+    hunger = 0;
+    mind = new Mind(this);
+    std::cout << name << " is born." << std::endl;
+    people.push_back(this);
 }
 
 Person::~Person() {
@@ -64,24 +56,6 @@ Environment* Person::get_environment() const {
 void Person::set_environment(Environment &env) {
     environment = &env;
 }
-
-// void Person::inform(std::string msg) {
-//     if (msg == "hungry") {
-//         if (rnd_gen(1, 100) < hunger)
-//             eat();
-//     }
-//     else std::cerr << "Error: Unknown inform message" << std::endl;
-// }
-
-// void Person::inform(int p_id, std::string msg) {
-//     if (msg == "enters")
-//         greet(p_id);
-//     else if (msg == "greets") {
-//         if (mind->interacting != p_id)
-//             greet(p_id);
-//     }
-//     else std::cerr << "Error: Unknown inform message" << std::endl;
-// }
 
 void Person::eat() {
     hunger = 0;

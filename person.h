@@ -11,8 +11,7 @@ class Mind;
 class Person {
     public:
         std::string name;
-        Person();
-        Person(std::string);
+        Person(std::string n = "");
         ~Person();
 
         /**
@@ -35,14 +34,11 @@ class Person {
         Mind* mind;
         int hunger;
         Environment* environment;
-        void init();
         void listen();
         void look();
         void eat();
         void greet(int);
         void speak(std::string, std::string, int);
-        //void inform(std::string);
-        //void inform(int, std::string);
 };
 
 #endif

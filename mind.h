@@ -7,7 +7,6 @@
 class Person;
 
 class Mind {
-
     public:
         Mind(Person*);
         void add_relation(int);
