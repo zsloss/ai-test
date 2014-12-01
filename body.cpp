@@ -19,40 +19,22 @@ void Body::eat() {
 }
 
 void Body::listen() {
-
     // Get all surrounding speech.
     auto heard_speech = get_environment()->get_audio()->get_speech();
     
-    // Store all speech directed to me.
-    std::vector<Speech_packet*> my_speech;  
-    for (auto s: heard_speech) {
-        if (s->get_target_id() == id)
-            my_speech.push_back(s);
-    }
-
-    // Loop over all speech directed to me.
-    for (auto s: my_speech) {
-        int spk = s->get_speaker_id();
-
-        // If they are greeting me, greet them back.
-        if (s->get_category() == "greeting" && !mind->knows(spk))
-            greet(spk);
-    }
+    // Inform the senses.
+    mind->get_senses().rec_heard_speech(heard_speech);
 }
 
 void Body::look() {
-
     // Get all visible people.
     auto seen_people = get_environment()->get_visual()->get_people();
 
-    // Loop over all visible people.
-    for (auto s: seen_people)
-        if (!mind->knows(s) && s != id)
-            greet(s);
+    // Inform the senses.
+    mind->get_senses().rec_seen_people(seen_people);
 }
 
 void Body::greet(int tgt) {
-    mind->add_relation(tgt);
     speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
 }
 
