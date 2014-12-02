@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <functional>
 
 class Person;
 class Body;
@@ -25,11 +26,12 @@ class Senses {
 
 class Action {
 	public:
-		Action();
+		Action(std::function<void()>);
 		void execute();
 		int get_priority();
 	private:
 		int priority;
+                std::function<void()> act;
 };
 
 class Mind {

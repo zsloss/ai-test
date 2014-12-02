@@ -16,12 +16,12 @@ std::unordered_set<int>& Senses::get_seen_people() {
 	return seen_people;
 }
 
-Action::Action() {
-
+Action::Action(std::function<void()> _act) {
+    act = _act;
 }
 
 void Action::execute() {
-
+    act();
 }
 
 int Action::get_priority() {
