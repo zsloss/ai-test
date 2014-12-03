@@ -25,7 +25,8 @@ void Body::listen() {
 void Body::look() {
     // Get all visible people.
     auto seen_people = get_environment()->get_visual()->get_people();
-
+    // Remove myself from the set.
+    seen_people.erase(id);
     // Inform the senses.
     mind().get_senses().rec_seen_people(seen_people);
 }
