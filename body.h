@@ -8,8 +8,12 @@ class Person;
 class Mind;
 
 class Body {
+
+    friend class Mind;
+
     public:
-    	Body(Person*, Mind*, Environment&);
+    	Body(Person*, Environment&);
+        void link_to_mind(Mind*);
     	void update();
     	void listen();
         void look();
@@ -17,6 +21,8 @@ class Body {
         void greet(int);
         void speak(std::string, std::string, int);
     private:
+        Body(const Body&);
+        Body& operator=(const Body&);
     	const int id;
     	Person* me;
     	Mind* mind;

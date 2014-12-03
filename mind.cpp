@@ -1,4 +1,13 @@
 #include "mind.h"
+#include <iostream>
+
+Senses::Senses() {
+
+}
+
+Senses::~Senses() {
+
+}
 
 void Senses::rec_heard_speech(std::vector<Speech_packet*> &hs) {
 	heard_speech = hs;
@@ -28,13 +37,25 @@ int Action::get_priority() {
 	return priority;
 }
 
-Mind::Mind(Person* _me, Body* _body) : id(_me->get_id()) {
+Mind::Mind(Person* _me) : id(_me->get_id()), body(nullptr) {
     me = _me;
-    body = _body;
+}
+
+void Mind::link_to_body(Body* b) {
+	if (body == nullptr)
+		body = b;
+	else {
+		std::cerr << "Warning, relinking body..." << std::endl;
+		body = b;
+	}
 }
 
 Senses& Mind::get_senses() {
 	return senses;
+}
+
+void Mind::update() {
+	plan();
 }
 
 void Mind::add_relation(int p_id) {
@@ -47,10 +68,14 @@ bool Mind::knows(int p_id) {
 
 void Mind::plan() {
 
+    auto greeting = [&](int tgt) {
+    	body->speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
+    };
+
     // Loop over all visible people.
     for (auto s: get_senses().get_seen_people())
-        if (knows(s) && s != id)
-            body->greet(s);
+        if (!knows(s) && s != id)
+        	actions.push_back(new Action([s, greeting](){greeting(s);}));
 
     // Store all speech directed to me.
     std::vector<Speech_packet*> my_speech;  

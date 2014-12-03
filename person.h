@@ -40,6 +40,8 @@ class Person {
         std::string& get_name();
         void update();
     private:        
+        Person(const Person&);
+        Person& operator=(const Person&);
         const int id;
         std::string name;
         Mind* mind;

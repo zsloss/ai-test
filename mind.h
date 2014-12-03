@@ -15,11 +15,15 @@ class Speech_packet;
 
 class Senses {
 	public:
+		Senses();
+		~Senses();
 		void rec_heard_speech(std::vector<Speech_packet*>&);
 		void rec_seen_people(std::unordered_set<int>&);
 		std::vector<Speech_packet*>& get_heard_speech();
 		std::unordered_set<int>& get_seen_people();
 	private:
+		Senses(const Senses&);
+		Senses& operator=(const Senses&);
 		std::vector<Speech_packet*> heard_speech;
 		std::unordered_set<int> seen_people;
 };
@@ -31,14 +35,19 @@ class Action {
 		int get_priority();
 	private:
 		int priority;
-                std::function<void()> act;
+        std::function<void()> act;
 };
 
 class Mind {
+
     public:
-        Mind(Person*, Body*);
+        Mind(Person*);
         Senses& get_senses();
+        void update();
+        void link_to_body(Body*);
     private:
+    	Mind(const Mind&);
+    	Mind& operator=(const Mind&);
     	const int id;
         Person* me;
         Body* body;
@@ -46,6 +55,7 @@ class Mind {
         Senses senses;    
         void add_relation(int);
         bool knows(int);
+        std::vector<Action*> actions;
         void plan();      
 };
 

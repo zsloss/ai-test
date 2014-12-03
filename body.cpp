@@ -1,11 +1,18 @@
 #include "body.h"
 #include <iostream>
 
-Body::Body(Person* _me, Mind* _mind, Environment &env) : id(_me->get_id()) {
+Body::Body(Person* _me, Environment &env) : id(_me->get_id()), mind(nullptr) {
     me = _me;
-    mind = _mind;
     set_environment(env);
-    hunger = 0;
+}
+
+void Body::link_to_mind(Mind* m) {
+    if (mind == nullptr)
+        mind = m;
+    else {
+        std::cerr << "Warning, relinking mind..." << std::endl;
+        mind = m;
+    }
 }
 
 void Body::update() {
@@ -21,7 +28,6 @@ void Body::eat() {
 void Body::listen() {
     // Get all surrounding speech.
     auto heard_speech = get_environment()->get_audio()->get_speech();
-    
     // Inform the senses.
     mind->get_senses().rec_heard_speech(heard_speech);
 }
@@ -39,7 +45,8 @@ void Body::greet(int tgt) {
 }
 
 void Body::speak(std::string category, std::string content, int tgt = -1) {
-    get_environment()->get_audio()->add_speech(new Speech_packet(id, category, content, tgt));
+    Speech_packet* sp = new Speech_packet(id, category, content, tgt);
+    get_environment()->get_audio()->add_speech(sp);
 }
 
 Environment* Body::get_environment() const {

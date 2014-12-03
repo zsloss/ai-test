@@ -17,7 +17,6 @@ void Environment::update() {
     get_visual()->update();
 }
 
-
 Audio* Environment::get_audio() const {
     return audio;
 }
@@ -51,7 +50,7 @@ std::vector<Speech_packet*>& Audio::get_speech() {
     return speech;
 }
 
-void Audio::add_speech(Speech_packet *packet) {
+void Audio::add_speech(Speech_packet *packet) {    
     get_speech().push_back(packet);
     std::cout << People::get_person(packet->get_speaker_id())->get_name() << ": \"" << packet->get_content() << "\"" << std::endl;
 }

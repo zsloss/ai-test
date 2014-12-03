@@ -20,6 +20,8 @@ class Environment {
         void add_person(int);
         void remove_person(int);
     private:
+        Environment(const Environment&);
+        Environment& operator=(const Environment&);
         Audio* audio;
         Visual* visual;
         std::unordered_set<int> people;
@@ -34,6 +36,8 @@ class Audio {
         std::vector<Speech_packet*>& get_speech();
         void add_speech(Speech_packet*);
     private:
+        Audio(const Audio&);
+        Audio& operator=(const Audio&);
         std::vector<Speech_packet*> speech;
         void update();
 };
@@ -46,6 +50,8 @@ class Visual {
         Visual();
         std::unordered_set<int>& get_people();
     private:
+        Visual(const Visual&);
+        Visual& operator=(const Visual&);
         void update();
         std::unordered_set<int> people;
         void add_person(int);
