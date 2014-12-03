@@ -37,17 +37,8 @@ int Action::get_priority() {
 	return priority;
 }
 
-Mind::Mind(Person* _me) : id(_me->get_id()), body(nullptr) {
-    me = _me;
-}
-
-void Mind::link_to_body(Body* b) {
-	if (body == nullptr)
-		body = b;
-	else {
-		std::cerr << "Warning, relinking body..." << std::endl;
-		body = b;
-	}
+Mind::Mind(Person* _me, Body*& _body) : id(_me->get_id()), me(_me), body(_body) {
+    
 }
 
 Senses& Mind::get_senses() {

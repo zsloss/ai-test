@@ -32,12 +32,9 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
         name = "Person " + int_to_string(id);
     else
         name = n;
-    mind = new Mind(this);    
-    body = new Body(this, env);
+    mind = new Mind(this, body);    
+    body = new Body(this, mind, env);
 
-    // Must be linked after construction, to ensure pointers are assigned correctly.
-    mind->link_to_body(body);
-    body->link_to_mind(mind);
     std::cout << get_name() << " is born." << std::endl;
     People::get_people().push_back(this);
 }

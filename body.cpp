@@ -1,18 +1,8 @@
 #include "body.h"
 #include <iostream>
 
-Body::Body(Person* _me, Environment &env) : id(_me->get_id()), mind(nullptr) {
-    me = _me;
-    set_environment(env);
-}
+Body::Body(Person* _me, Mind*& _mind, Environment& env) : id(_me->get_id()), me(_me), mind(_mind), environment(&env) {
 
-void Body::link_to_mind(Mind* m) {
-    if (mind == nullptr)
-        mind = m;
-    else {
-        std::cerr << "Warning, relinking mind..." << std::endl;
-        mind = m;
-    }
 }
 
 void Body::update() {

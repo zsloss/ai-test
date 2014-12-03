@@ -12,8 +12,7 @@ class Body {
     friend class Mind;
 
     public:
-    	Body(Person*, Environment&);
-        void link_to_mind(Mind*);
+    	Body(Person*, Mind*&, Environment&);
     	void update();
     	void listen();
         void look();

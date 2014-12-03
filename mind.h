@@ -41,10 +41,9 @@ class Action {
 class Mind {
 
     public:
-        Mind(Person*);
+        Mind(Person*, Body*&);
         Senses& get_senses();
         void update();
-        void link_to_body(Body*);
     private:
     	Mind(const Mind&);
     	Mind& operator=(const Mind&);
