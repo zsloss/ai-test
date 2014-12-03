@@ -32,8 +32,8 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
         name = "Person " + int_to_string(id);
     else
         name = n;
-    mind = new Mind(this, body);    
-    body = new Body(this, mind, env);
+    mind = new Mind(this);    
+    body = new Body(this, env);
 
     std::cout << get_name() << " is born." << std::endl;
     People::get_people().push_back(this);
@@ -57,3 +57,14 @@ void Person::update() {
     mind->update();
 }
     
+Mind& Person::get_mind(int _id) {
+    if (id != _id)
+        std::cerr << "WARNING: UNAUTHORISED ACCESS OF MIND ID: " << id << " BY ID: " << _id << std::endl;
+    return *mind;
+}
+
+Body& Person::get_body(int _id) {
+    if (id != _id)
+        std::cerr << "WARNING: UNAUTHORISED ACCESS OF BODY ID: " << id << " BY ID: " << _id << std::endl;
+    return *body;
+}

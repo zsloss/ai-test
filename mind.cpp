@@ -37,7 +37,7 @@ int Action::get_priority() {
 	return priority;
 }
 
-Mind::Mind(Person* _me, Body*& _body) : id(_me->get_id()), me(_me), body(_body) {
+Mind::Mind(Person* _me) : id(_me->get_id()), me(_me) {
     
 }
 
@@ -47,6 +47,10 @@ Senses& Mind::get_senses() {
 
 void Mind::update() {
 	plan();
+}
+
+Body& Mind::body() {
+    return me->get_body(id);    
 }
 
 void Mind::add_relation(int p_id) {
@@ -60,13 +64,15 @@ bool Mind::knows(int p_id) {
 void Mind::plan() {
 
     auto greeting = [&](int tgt) {
-    	body->speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
+    	body().speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
     };
 
     // Loop over all visible people.
     for (auto s: get_senses().get_seen_people())
-        if (!knows(s) && s != id)
+        if (!knows(s)) {
         	actions.push_back(new Action([s, greeting](){greeting(s);}));
+                body().greet(s);
+        }
 
     // Store all speech directed to me.
     std::vector<Speech_packet*> my_speech;  
@@ -81,6 +87,6 @@ void Mind::plan() {
 
         // If they are greeting me, greet them back.
         if (s->get_category() == "greeting" && knows(spk))
-            body->greet(spk);
+            body().greet(spk);
     }
 }

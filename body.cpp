@@ -1,8 +1,8 @@
 #include "body.h"
 #include <iostream>
 
-Body::Body(Person* _me, Mind*& _mind, Environment& env) : id(_me->get_id()), me(_me), mind(_mind), environment(&env) {
-
+Body::Body(Person* _me, Environment& env) : id(_me->get_id()), me(_me) {
+    set_environment(env);
 }
 
 void Body::update() {
@@ -19,7 +19,7 @@ void Body::listen() {
     // Get all surrounding speech.
     auto heard_speech = get_environment()->get_audio()->get_speech();
     // Inform the senses.
-    mind->get_senses().rec_heard_speech(heard_speech);
+    mind().get_senses().rec_heard_speech(heard_speech);
 }
 
 void Body::look() {
@@ -27,7 +27,7 @@ void Body::look() {
     auto seen_people = get_environment()->get_visual()->get_people();
 
     // Inform the senses.
-    mind->get_senses().rec_seen_people(seen_people);
+    mind().get_senses().rec_seen_people(seen_people);
 }
 
 void Body::greet(int tgt) {
@@ -37,6 +37,10 @@ void Body::greet(int tgt) {
 void Body::speak(std::string category, std::string content, int tgt = -1) {
     Speech_packet* sp = new Speech_packet(id, category, content, tgt);
     get_environment()->get_audio()->add_speech(sp);
+}
+
+Mind& Body::mind() {
+    return me->get_mind(id);
 }
 
 Environment* Body::get_environment() const {

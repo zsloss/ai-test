@@ -39,17 +39,16 @@ class Action {
 };
 
 class Mind {
-
     public:
-        Mind(Person*, Body*&);
+        Mind(Person*);
         Senses& get_senses();
         void update();
+        Body& body();
     private:
     	Mind(const Mind&);
     	Mind& operator=(const Mind&);
     	const int id;
         Person* me;
-        Body* body;
         std::unordered_map<int, int> relations;
         Senses senses;    
         void add_relation(int);
