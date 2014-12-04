@@ -40,19 +40,16 @@ Audio::Audio() {
 }
 
 void Audio::update() {
-    for (Speech_packet* p: get_speech()) {
-        delete p;
-    }
     speech.clear();
 }
 
-std::vector<Speech_packet*>& Audio::get_speech() {
+std::vector<Speech_packet>& Audio::get_speech() {
     return speech;
 }
 
-void Audio::add_speech(Speech_packet *packet) {    
-    get_speech().push_back(packet);
-    std::cout << People::get_person(packet->get_speaker_id())->get_name() << ": \"" << packet->get_content() << "\"" << std::endl;
+void Audio::add_speech(int spk, std::string cat, std::string cont, int tgt) {    
+    speech.emplace_back(spk, cat, cont, tgt);
+    std::cout << People::get_person(spk)->get_name() << ": \"" << cont << "\"" << std::endl;
 }
 
 Visual::Visual() {

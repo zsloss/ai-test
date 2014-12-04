@@ -17,14 +17,14 @@ class Senses {
 	public:
 		Senses();
 		~Senses();
-		void rec_heard_speech(std::vector<Speech_packet*>&);
+		void rec_heard_speech(std::vector<Speech_packet>&);
 		void rec_seen_people(std::unordered_set<int>&);
-		std::vector<Speech_packet*>& get_heard_speech();
+		std::vector<Speech_packet>& get_heard_speech();
 		std::unordered_set<int>& get_seen_people();
 	private:
 		Senses(const Senses&);
 		Senses& operator=(const Senses&);
-		std::vector<Speech_packet*> heard_speech;
+		std::vector<Speech_packet> heard_speech;
 		std::unordered_set<int> seen_people;
 };
 
@@ -33,7 +33,7 @@ class Action {
 		Action(std::function<void()>);
 		void execute();
 		int get_priority() const;
-                bool operator < (const Action&) const;
+        bool operator < (const Action&) const;
 	private:
 		int priority;
         std::function<void()> act;

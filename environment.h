@@ -33,12 +33,12 @@ class Audio {
 
     public:
         Audio();
-        std::vector<Speech_packet*>& get_speech();
-        void add_speech(Speech_packet*);
+        std::vector<Speech_packet>& get_speech();
+        void add_speech(int, std::string, std::string, int);
     private:
         Audio(const Audio&);
         Audio& operator=(const Audio&);
-        std::vector<Speech_packet*> speech;
+        std::vector<Speech_packet> speech;
         void update();
 };
 

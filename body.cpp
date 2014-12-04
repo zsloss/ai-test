@@ -36,8 +36,7 @@ void Body::greet(int tgt) {
 }
 
 void Body::speak(std::string category, std::string content, int tgt = -1) {
-    Speech_packet* sp = new Speech_packet(id, category, content, tgt);
-    get_environment()->get_audio()->add_speech(sp);
+    get_environment()->get_audio()->add_speech(id, category, content, tgt);
 }
 
 Mind& Body::mind() {

@@ -1,5 +1,7 @@
 #include "mind.h"
 #include <iostream>
+#include <algorithm>
+#include <iterator>
 
 Senses::Senses() {
 
@@ -9,7 +11,7 @@ Senses::~Senses() {
 
 }
 
-void Senses::rec_heard_speech(std::vector<Speech_packet*> &hs) {
+void Senses::rec_heard_speech(std::vector<Speech_packet> &hs) {
 	heard_speech = hs;
 }
 
@@ -17,7 +19,7 @@ void Senses::rec_seen_people(std::unordered_set<int> &sp) {
 	seen_people = sp;
 }
 
-std::vector<Speech_packet*>& Senses::get_heard_speech() {
+std::vector<Speech_packet>& Senses::get_heard_speech() {
 	return heard_speech;
 }
 
@@ -77,19 +79,18 @@ void Mind::plan() {
         	actions.emplace_back([s, greeting](){greeting(s);});
         }
 
-    // Store all speech directed to me.
-    std::vector<Speech_packet*> my_speech;  
-    for (auto s: get_senses().get_heard_speech()) {
-        if (s->get_target_id() == id)
-            my_speech.push_back(s);
-    }
+    // Store all speech directed to me.    
+    auto heard_speech = get_senses().get_heard_speech();
+    std::vector<Speech_packet> my_speech;  
+    auto to_me = [&](Speech_packet &s){return s.get_target_id() == id;};
+    std::copy_if(heard_speech.begin(), heard_speech.end(), std::back_inserter(my_speech), to_me);
 
 	// Loop over all speech directed to me.
-    for (auto s: my_speech) {
-        int spk = s->get_speaker_id();
+    for (auto &s: my_speech) {
+        int spk = s.get_speaker_id();
 
         // If they are greeting me, greet them back.
-        if (s->get_category() == "greeting")
+        if (s.get_category() == "greeting")
         	actions.emplace_back([spk, greeting](){greeting(spk);});
     }
 }
