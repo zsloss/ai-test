@@ -32,7 +32,8 @@ class Action {
 	public:
 		Action(std::function<void()>);
 		void execute();
-		int get_priority();
+		int get_priority() const;
+                bool operator < (const Action&) const;
 	private:
 		int priority;
         std::function<void()> act;
@@ -55,6 +56,7 @@ class Mind {
         bool knows(int);
         std::vector<Action*> actions;
         void plan();      
+        void make_decision();
 };
 
 #endif

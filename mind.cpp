@@ -33,8 +33,12 @@ void Action::execute() {
     act();
 }
 
-int Action::get_priority() {
+int Action::get_priority() const {
 	return priority;
+}
+
+bool Action::operator < (const Action& rhs) const {
+    return get_priority() < rhs.get_priority();
 }
 
 Mind::Mind(Person* _me) : id(_me->get_id()), me(_me) {
@@ -71,7 +75,6 @@ void Mind::plan() {
     for (auto s: get_senses().get_seen_people())
         if (!knows(s)) {
         	actions.push_back(new Action([s, greeting](){greeting(s);}));
-                body().greet(s);
         }
 
     // Store all speech directed to me.
@@ -86,7 +89,11 @@ void Mind::plan() {
         int spk = s->get_speaker_id();
 
         // If they are greeting me, greet them back.
-        if (s->get_category() == "greeting" && knows(spk))
-            body().greet(spk);
+        if (s->get_category() == "greeting")
+        	actions.push_back(new Action([spk, greeting](){greeting(spk);}));
     }
+}
+
+void Mind::make_decision() {
+
 }
