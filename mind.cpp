@@ -74,7 +74,7 @@ void Mind::plan() {
     // Loop over all visible people.
     for (auto s: get_senses().get_seen_people())
         if (!knows(s)) {
-        	actions.push_back(new Action([s, greeting](){greeting(s);}));
+        	actions.emplace_back([s, greeting](){greeting(s);});
         }
 
     // Store all speech directed to me.
@@ -90,7 +90,7 @@ void Mind::plan() {
 
         // If they are greeting me, greet them back.
         if (s->get_category() == "greeting")
-        	actions.push_back(new Action([spk, greeting](){greeting(spk);}));
+        	actions.emplace_back([spk, greeting](){greeting(spk);});
     }
 }
 

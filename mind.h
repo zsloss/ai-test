@@ -54,7 +54,7 @@ class Mind {
         Senses senses;    
         void add_relation(int);
         bool knows(int);
-        std::vector<Action*> actions;
+        std::vector<Action> actions;
         void plan();      
         void make_decision();
 };
