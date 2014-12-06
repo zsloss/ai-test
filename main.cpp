@@ -13,7 +13,10 @@ int main(int argc, char* argv[]) {
     Environment env;
     Person p1(env);
     Person p2(env);
-    p1.update();
-    p2.update();
-    env.update();
+    for (int i = 1; i <= 10; i++) {
+    	std::cout << std::endl << "Cycle: \n" << i << std::endl;
+        p1.update();
+        p2.update(); 
+        env.update();
+    }
 }

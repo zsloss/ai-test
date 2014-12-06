@@ -53,6 +53,7 @@ Senses& Mind::get_senses() {
 
 void Mind::update() {
 	plan();
+    make_decision();
 }
 
 Body& Mind::body() {
@@ -77,6 +78,7 @@ void Mind::plan() {
     for (auto s: get_senses().get_seen_people())
         if (!knows(s)) {
         	actions.emplace_back([s, greeting](){greeting(s);});
+            add_relation(s);
         }
 
     // Store all speech directed to me.    
@@ -88,13 +90,22 @@ void Mind::plan() {
 	// Loop over all speech directed to me.
     for (auto &s: my_speech) {
         int spk = s.get_speaker_id();
-
         // If they are greeting me, greet them back.
-        if (s.get_category() == "greeting")
+        if (!knows(spk) && s.get_category() == "greeting") {
         	actions.emplace_back([spk, greeting](){greeting(spk);});
+            add_relation(spk);
+        }
     }
 }
 
 void Mind::make_decision() {
+    // Find the action with the highest priority.
+    auto act = std::max_element(actions.begin(), actions.end());
 
+    // Unless there are no actions at all, copy winning Action to body.
+    if (act != actions.end())
+        body().set_next_action(*act);
+
+    // Clear the actions collection.
+    actions.clear();
 }

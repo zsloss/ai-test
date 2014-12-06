@@ -18,7 +18,7 @@ Person* People::get_person(const int _id) {
         return people.at(_id - 1); // IDs start at 1, so adjust for zero-indexing.
     }
     catch (const std::out_of_range& e) {
-        std::cerr << "Error: Person ID out of range." << std::endl;
+        std::cerr << "Error: Person ID (" << _id << ") out of range." << std::endl;
     }
     return nullptr;
 }
@@ -54,7 +54,8 @@ int Person::get_id() const {
 
 void Person::update() {
     body->update();
-    mind->update();
+    mind->update();    
+    body->execute_next_action();
 }
     
 Mind& Person::get_mind(int _id) {

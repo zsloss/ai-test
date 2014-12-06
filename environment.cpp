@@ -40,7 +40,11 @@ Audio::Audio() {
 }
 
 void Audio::update() {
-    speech.clear();
+    // Speech is now accessible to all.
+    speech = temp_speech;
+
+    // Reset temp_speech for next cycle.
+    temp_speech = decltype(temp_speech)();
 }
 
 std::vector<Speech_packet>& Audio::get_speech() {
@@ -48,7 +52,7 @@ std::vector<Speech_packet>& Audio::get_speech() {
 }
 
 void Audio::add_speech(int spk, std::string cat, std::string cont, int tgt) {    
-    speech.emplace_back(spk, cat, cont, tgt);
+    temp_speech.emplace_back(spk, cat, cont, tgt);
     std::cout << People::get_person(spk)->get_name() << ": \"" << cont << "\"" << std::endl;
 }
 
