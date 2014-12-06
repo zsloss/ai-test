@@ -25,4 +25,6 @@ int main(int argc, char* argv[]) {
             p->act();
         env.update();
     }
+    for (auto p: ppl)
+        delete p;
 }
