@@ -40,6 +40,7 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
 }
 
 Person::~Person() {
+    std::cout << id << " dies" << std::endl;
     delete mind;
     delete body;
 }
@@ -55,6 +56,9 @@ int Person::get_id() const {
 void Person::update() {
     body->update();
     mind->update();    
+}
+
+void Person::act() {    
     body->execute_next_action();
 }
     

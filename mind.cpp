@@ -72,13 +72,13 @@ void Mind::plan() {
 
     auto greeting = [&](int tgt) {
     	body().speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
+        add_relation(tgt);
     };
 
     // Loop over all visible people.
     for (auto s: get_senses().get_seen_people())
         if (!knows(s)) {
         	actions.emplace_back([s, greeting](){greeting(s);});
-            add_relation(s);
         }
 
     // Store all speech directed to me.    
@@ -93,7 +93,6 @@ void Mind::plan() {
         // If they are greeting me, greet them back.
         if (!knows(spk) && s.get_category() == "greeting") {
         	actions.emplace_back([spk, greeting](){greeting(spk);});
-            add_relation(spk);
         }
     }
 }

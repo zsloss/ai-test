@@ -39,6 +39,7 @@ class Person {
         int get_id() const;
         std::string& get_name();
         void update();
+        void act();
         Mind& get_mind(int);
         Body& get_body(int);
     private:        
