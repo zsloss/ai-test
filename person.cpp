@@ -27,6 +27,10 @@ std::vector<Person*>& People::get_people() {
     return people;
 }
 
+int People::num_active() {
+    return people.size();
+}
+
 Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
     if (n.empty())
         name = "Person " + int_to_string(id);
@@ -55,11 +59,8 @@ int Person::get_id() const {
 
 void Person::update() {
     body->update();
-    mind->update();    
-}
-
-void Person::act() {    
-    body->execute_next_action();
+    mind->update();  
+    body->execute_next_action();  
 }
     
 Mind& Person::get_mind(int _id) {

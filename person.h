@@ -24,6 +24,7 @@ class People {
         static Person* get_person(const int _id);
 
         static std::vector<Person*>& get_people();
+        static int num_active();
     private:
         static int next_id;
         static std::vector<Person*> people;
@@ -39,7 +40,6 @@ class Person {
         int get_id() const;
         std::string& get_name();
         void update();
-        void act();
         Mind& get_mind(int);
         Body& get_body(int);
     private:        

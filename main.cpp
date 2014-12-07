@@ -15,15 +15,14 @@ int main(int argc, char* argv[]) {
 
     std::vector<Person*> ppl;
     for (int i = 0; i < 5; i++)
-       ppl.push_back(new Person(env));
+        ppl.push_back(new Person(env));
 
     for (int i = 1; i <= 10; i++) {
-    	std::cout << std::endl << "Cycle: " << i << std::endl << std::endl;
-        for (auto p: ppl)
+        std::cout << std::endl << "Cycle " << i << ":\n" << std::endl;
+        for (auto p: ppl) {
             p->update();
-        for (auto p: ppl)
-            p->act();
-        env.update();
+            p->get_body(p->get_id()).get_environment()->update();
+        }
     }
     for (auto p: ppl)
         delete p;

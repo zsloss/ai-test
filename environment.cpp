@@ -1,5 +1,7 @@
 #include "environment.h"
 #include <iostream>
+#include <algorithm>
+#include <functional>
 #include "person.h"
 
 Environment::Environment() {
@@ -40,11 +42,7 @@ Audio::Audio() {
 }
 
 void Audio::update() {
-    // Speech is now accessible to all.
-    speech = temp_speech;
-
-    // Reset temp_speech for next cycle.
-    temp_speech = decltype(temp_speech)();
+    speech.erase(std::remove_if(speech.begin(), speech.end(), [](Speech_packet &sp) -> bool {return sp.update();}), std::end(speech));
 }
 
 std::vector<Speech_packet>& Audio::get_speech() {
@@ -52,7 +50,7 @@ std::vector<Speech_packet>& Audio::get_speech() {
 }
 
 void Audio::add_speech(int spk, std::string cat, std::string cont, int tgt) {    
-    temp_speech.emplace_back(spk, cat, cont, tgt);
+    speech.emplace_back(spk, cat, cont, tgt);
     std::cout << People::get_person(spk)->get_name() << ": \"" << cont << "\"" << std::endl;
 }
 

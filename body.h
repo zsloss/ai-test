@@ -21,6 +21,7 @@ class Body {
         void speak(std::string, std::string, int);
         void set_next_action(const Action&);
         void execute_next_action();
+        Environment* get_environment() const;
         Mind& mind();
     private:
         Body(const Body&);
@@ -28,7 +29,6 @@ class Body {
     	const int id;
     	Person* me;
     	int hunger;
-    	Environment* get_environment() const;
         void set_environment(Environment&);
         void enter(Environment&);
         Environment* environment;

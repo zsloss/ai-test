@@ -61,5 +61,7 @@ void Body::enter(Environment &env) {
 void Body::execute_next_action() {
     if (next_action != nullptr)
         next_action->execute();
+
+    // Action is complete and can be deleted.
     delete next_action; next_action = nullptr;
 }

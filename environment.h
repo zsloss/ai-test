@@ -39,7 +39,6 @@ class Audio {
         Audio(const Audio&);
         Audio& operator=(const Audio&);
         std::vector<Speech_packet> speech;
-        std::vector<Speech_packet> temp_speech;
         void update();
 };
 

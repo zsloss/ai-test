@@ -9,9 +9,11 @@ class Speech_packet {
         std::string get_content() const;
         int get_speaker_id() const;
         int get_target_id() const;
+        int get_life() const;
+        bool update();
     private:
         std::string category, content;
-        int speaker_id, target_id;
+        int speaker_id, target_id, life;
 };
 
 #endif
