@@ -71,7 +71,7 @@ bool Mind::knows(int p_id) {
 void Mind::plan() {
 
     auto greeting = [&](int tgt) {
-    	body().speak("greeting", "Howdy, " + People::get_person(tgt)->get_name() + "!", tgt);
+    	body().speak("greeting", "Howdy, " + People::get_name(tgt) + "!", tgt);
         add_relation(tgt);
     };
 

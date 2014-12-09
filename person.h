@@ -14,7 +14,13 @@ class Body;
 
 class People {
     public:
-        static int get_next_id();
+        static int get_next_id();        
+        static std::string get_name(const int);
+        static std::vector<Person*>& get_people();
+        static int num_active();
+    private:
+        static int next_id;
+        static std::vector<Person*> people;
 
         /**
          * Retrieves a pointer to a Person object.
@@ -22,13 +28,7 @@ class People {
          * @param _id the ID of the Person.
          * @return A pointer to the Person or nullptr if there is an error.
          */
-        static Person* get_person(const int _id);
-
-        static std::vector<Person*>& get_people();
-        static int num_active();
-    private:
-        static int next_id;
-        static std::vector<Person*> people;
+        static Person* get_person(const int);
 };
 
 class Person {

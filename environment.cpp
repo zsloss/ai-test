@@ -18,7 +18,7 @@ std::vector<Speech_packet>& Audio::get_speech() {
 
 void Audio::add_speech(int spk, std::string cat, std::string cont, int tgt) {    
     speech.emplace_back(spk, cat, cont, tgt);
-    std::cout << People::get_person(spk)->get_name() << ": \"" << cont << "\"" << std::endl;
+    std::cout << People::get_name(spk) << ": \"" << cont << "\"" << std::endl;
 }
 
 Visual::Visual() {

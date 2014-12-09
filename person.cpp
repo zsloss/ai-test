@@ -13,6 +13,11 @@ int People::get_next_id() {
     return ++next_id;
 }
 
+std::string People::get_name(const int _id) {
+    auto p = get_person(_id);
+    return p ? p->get_name() : "ERROR: Unable to get name.";
+}
+
 Person* People::get_person(const int _id) {
     try {
         return people.at(_id - 1); // IDs start at 1, so adjust for zero-indexing.

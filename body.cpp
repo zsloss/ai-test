@@ -36,7 +36,7 @@ void Body::speak(std::string category, std::string content, int tgt = -1) {
 }
 
 void Body::set_next_action(const Action& act) {
-    next_action = std::unique_ptr<Action>(new Action(act));
+    next_action.reset(new Action(act));
 }
 
 Mind& Body::mind() {
@@ -61,6 +61,8 @@ void Body::enter(Environment &env) {
 void Body::execute_next_action() {
     if (next_action != nullptr)
         next_action->execute();
+    else
+        std::cerr << "WARNING: " << id << " has no action to execute." << std::endl;
 
     // Action is complete and can be deleted.
     next_action.reset();
