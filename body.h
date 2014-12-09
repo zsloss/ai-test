@@ -2,6 +2,7 @@
 #define BODY_H
 
 #include <string>
+#include <memory>
 #include "environment.h"
 #include "person.h"
 #include "mind.h"
@@ -32,7 +33,7 @@ class Body {
         void set_environment(Environment&);
         void enter(Environment&);
         Environment* environment;
-        Action* next_action;        
+        std::unique_ptr<Action> next_action;        
 };
 
 #endif

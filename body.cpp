@@ -1,12 +1,12 @@
 #include "body.h"
 #include <iostream>
 
-Body::Body(Person* _me, Environment& env) : id(_me->get_id()), me(_me), next_action(nullptr) {
+Body::Body(Person* _me, Environment& env) : id(_me->get_id()), me(_me) {
     set_environment(env);
 }
 
 Body::~Body() {
-    delete next_action;
+
 }
 
 void Body::update() {
@@ -36,7 +36,7 @@ void Body::speak(std::string category, std::string content, int tgt = -1) {
 }
 
 void Body::set_next_action(const Action& act) {
-    next_action = new Action(act);
+    next_action = std::unique_ptr<Action>(new Action(act));
 }
 
 Mind& Body::mind() {
@@ -63,5 +63,5 @@ void Body::execute_next_action() {
         next_action->execute();
 
     // Action is complete and can be deleted.
-    delete next_action; next_action = nullptr;
+    next_action.reset();
 }
