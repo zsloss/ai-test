@@ -16,7 +16,7 @@ void Body::update() {
 
 void Body::listen() {
     // Get all surrounding speech.
-    auto heard_speech = get_environment()->get_audio()->get_speech();
+    auto heard_speech = get_environment()->get_audio().get_speech();
 
     // Inform the senses.
     mind().get_senses().rec_heard_speech(heard_speech);
@@ -24,7 +24,7 @@ void Body::listen() {
 
 void Body::look() {
     // Get all visible people.
-    auto seen_people = get_environment()->get_visual()->get_people();
+    auto seen_people = get_environment()->get_visual().get_people();
     // Remove myself from the set.
     seen_people.erase(id);
     // Inform the senses.
@@ -32,7 +32,7 @@ void Body::look() {
 }
 
 void Body::speak(std::string category, std::string content, int tgt = -1) {
-    get_environment()->get_audio()->add_speech(id, category, content, tgt);
+    get_environment()->get_audio().add_speech(id, category, content, tgt);
 }
 
 void Body::set_next_action(const Action& act) {

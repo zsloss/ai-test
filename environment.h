@@ -5,27 +5,7 @@
 #include <vector>
 #include <unordered_set>
 
-class Audio;
-class Visual;
 class Speech_packet;
-
-class Environment {
-
-    public:
-        Environment();
-        ~Environment();
-        Audio* get_audio() const;
-        Visual* get_visual() const;
-        void update();
-        void add_person(int);
-        void remove_person(int);
-    private:
-        Environment(const Environment&);
-        Environment& operator=(const Environment&);
-        Audio* audio;
-        Visual* visual;
-        std::unordered_set<int> people;
-};
 
 class Audio {
 
@@ -56,6 +36,24 @@ class Visual {
         std::unordered_set<int> people;
         void add_person(int);
         void remove_person(int);
+};
+
+class Environment {
+
+    public:
+        Environment();
+        ~Environment();
+        Audio& get_audio();
+        Visual& get_visual();
+        void update();
+        void add_person(int);
+        void remove_person(int);
+    private:
+        Environment(const Environment&);
+        Environment& operator=(const Environment&);
+        Audio audio;
+        Visual visual;
+        std::unordered_set<int> people;
 };
 
 #endif
