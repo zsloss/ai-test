@@ -36,8 +36,10 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
         name = "Person " + int_to_string(id);
     else
         name = n;
-    mind = new Mind(this);    
-    body = new Body(this, env);
+    // mind = std::make_unique<Mind>(this);    
+    // body = std::make_unique<Body>(this, env);
+    mind = std::unique_ptr<Mind>(new Mind(this));
+    body = std::unique_ptr<Body>(new Body(this, env));
 
     std::cout << get_name() << " is born." << std::endl;
     People::get_people().push_back(this);
@@ -45,8 +47,6 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
 
 Person::~Person() {
     std::cout << id << " dies" << std::endl;
-    delete mind;
-    delete body;
 }
 
 std::string& Person::get_name() {

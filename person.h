@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "environment.h"
 #include "mind.h"
 #include "body.h"
@@ -47,8 +48,8 @@ class Person {
         Person& operator=(const Person&);
         const int id;
         std::string name;
-        Mind* mind;
-        Body* body;
+        std::unique_ptr<Mind> mind;
+        std::unique_ptr<Body> body;
 };
 
 #endif
