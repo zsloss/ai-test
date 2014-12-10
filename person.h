@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "environment.h"
 #include "mind.h"
 #include "body.h"
 
 class Person;
 class Mind;
 class Body;
+class Zone;
 
 class People {
     public:
@@ -36,7 +36,7 @@ class Person {
     friend class People;
 
     public:        
-        Person(Environment &env, std::string n = "");
+        Person(Zone &z, std::string n = "");
         ~Person();       
         int get_id() const;
         std::string& get_name();

@@ -3,18 +3,18 @@
 
 #include <string>
 #include <memory>
-#include "environment.h"
+#include "world.h"
 #include "person.h"
 #include "mind.h"
 
-class Environment;
+class Zone;
 class Person;
 class Mind;
 class Action;
 
 class Body {
     public:
-    	Body(Person*, Environment&);
+    	Body(Person*, Zone&);
         ~Body();
     	void update();
     	void listen();
@@ -22,7 +22,7 @@ class Body {
         void speak(std::string, std::string, int);
         void set_next_action(const Action&);
         void execute_next_action();
-        Environment* get_environment() const;
+        Zone* get_zone() const;
         Mind& mind();
     private:
         Body(const Body&);
@@ -30,9 +30,9 @@ class Body {
     	const int id;
     	Person* me;
     	int hunger;
-        void set_environment(Environment&);
-        void enter(Environment&);
-        Environment* environment;
+        void set_zone(Zone&);
+        void enter(Zone&);
+        Zone* zone;
         std::unique_ptr<Action> next_action;        
 };
 

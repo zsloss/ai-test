@@ -4,7 +4,6 @@
 #include <unordered_set>
 #include "speech.h"
 #include "library.h"
-
 int People::next_id = 0;
 
 std::vector<Person*> People::people;
@@ -36,7 +35,7 @@ int People::num_active() {
     return people.size();
 }
 
-Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
+Person::Person(Zone &z, std::string n) : id(People::get_next_id()) {
     if (n.empty())
         name = "Person " + int_to_string(id);
     else
@@ -44,7 +43,7 @@ Person::Person(Environment &env, std::string n) : id(People::get_next_id()) {
     // mind = std::make_unique<Mind>(this);    
     // body = std::make_unique<Body>(this, env);
     mind = std::unique_ptr<Mind>(new Mind(this));
-    body = std::unique_ptr<Body>(new Body(this, env));
+    body = std::unique_ptr<Body>(new Body(this, z));
 
     std::cout << get_name() << " is born." << std::endl;
     People::get_people().push_back(this);

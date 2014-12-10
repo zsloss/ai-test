@@ -1,8 +1,8 @@
 #include "body.h"
 #include <iostream>
 
-Body::Body(Person* _me, Environment& env) : id(_me->get_id()), me(_me) {
-    set_environment(env);
+Body::Body(Person* _me, Zone& z) : id(_me->get_id()), me(_me) {
+    set_zone(z);
 }
 
 Body::~Body() {
@@ -16,7 +16,7 @@ void Body::update() {
 
 void Body::listen() {
     // Get all surrounding speech.
-    auto heard_speech = get_environment()->get_audio().get_speech();
+    auto heard_speech = zone->get_environment().get_speech();
 
     // Inform the senses.
     mind().get_senses().rec_heard_speech(heard_speech);
@@ -24,7 +24,7 @@ void Body::listen() {
 
 void Body::look() {
     // Get all visible people.
-    auto seen_people = get_environment()->get_visual().get_people();
+    auto seen_people = zone->get_environment().get_people();
     // Remove myself from the set.
     seen_people.erase(id);
     // Inform the senses.
@@ -32,7 +32,7 @@ void Body::look() {
 }
 
 void Body::speak(std::string category, std::string content, int tgt = -1) {
-    get_environment()->get_audio().add_speech(id, category, content, tgt);
+    zone->get_environment().add_speech(id, category, content, tgt);
 }
 
 void Body::set_next_action(const Action& act) {
@@ -43,18 +43,18 @@ Mind& Body::mind() {
     return me->get_mind(id);
 }
 
-Environment* Body::get_environment() const {
-    return environment;
+Zone* Body::get_zone() const {
+    return zone;
 }
 
-void Body::set_environment(Environment &env) {
-    environment = &env;
-    env.add_person(id);
+void Body::set_zone(Zone &z) {
+    zone = &z;
+    zone->add_person(id);
 }
 
-void Body::enter(Environment &env) {
-    get_environment()->remove_person(id);
-    set_environment(env);
+void Body::enter(Zone &z) {
+    get_zone()->remove_person(id);
+    set_zone(z);
     std::cout << me->get_name() << " enters a new place..." << std::endl;
 }
 
