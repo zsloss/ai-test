@@ -1,26 +1,17 @@
 #include <iostream>
 #include <string>
-#include <vector>
-#include <memory>
-#include "person.h"
-#include "environment.h"
-
-class Person;
-class Environment;
+#include "world.h"
 
 int main(int argc, char* argv[]) {
-    std::cout << "\n** AI TEST **\n" << std::endl;
-    Environment env;
 
-    std::vector<std::unique_ptr<Person>> ppl;
-    for (int i = 0; i < 5; i++)
-        ppl.push_back(std::unique_ptr<Person>(new Person(env)));
+    std::cout << "\n** AI TEST **\n" << std::endl;
+
+    World w;
+
+    w.add_people(5);
 
     for (int i = 1; i <= 10; i++) {
         std::cout << std::endl << "Cycle " << i << ":\n" << std::endl;
-        for (auto &p: ppl) {
-            p->update();
-            p->get_body(p->get_id()).get_environment()->update();
-        }
-    }
+        w.update();
+    }   
 }
