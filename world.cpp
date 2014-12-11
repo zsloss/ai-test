@@ -60,12 +60,47 @@ void Zone::update() {
 	env->update();
 }
 
+// WORLD MAP
+
+World_map::World_map(int x_max, int y_max) {
+    build_map(x_max, y_max);    
+}
+
+World_map::~World_map() = default;
+
+Zone& World_map::get_zone(int x, int y) {
+    return *(map.at(y).at(x));
+}
+
+void World_map::build_map(int x_max, int y_max) {
+
+    std::vector<std::unique_ptr<Zone>> *prev_row; // Keep a copy of the previous row
+
+    // Build the container of containers...
+    for (int y = 0; y < y_max; y++) {
+
+        // Add a new row
+        map.push_back(std::vector<std::unique_ptr<Zone>>());
+        auto row = &map.back(); // Store a reference to the row
+
+        std::unique_ptr<Zone> *prev_zone; // Keep a copy of the previous zone
+
+        for (int x = 0; x < x_max; x++) {
+
+            // Add a zone to the row
+            row->push_back(std::unique_ptr<Zone>(new Zone()));
+
+            prev_zone = &row->back(); // Update previous zone
+        }
+
+        prev_row = row; // Update previous row
+    }
+}
+
 // WORLD
 
-World::World() {
-	// Just one zone for now...
-	world_map.push_back(std::vector<std::unique_ptr<Zone>>());
-	world_map.at(0).push_back(std::unique_ptr<Zone>(new Zone()));
+World::World() : map(10,10) {
+
 }
 
 World::~World() {
@@ -74,7 +109,7 @@ World::~World() {
 
 void World::add_people(int n) {
 	for (int i = 0; i < n; i++)
-		people.emplace_back(new Person(*world_map.at(0).at(0)));
+		people.emplace_back(new Person(map.get_zone(0,0)));
 }
 
 void World::update() {	
