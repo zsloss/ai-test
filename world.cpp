@@ -74,26 +74,36 @@ Zone& World_map::get_zone(int x, int y) {
 
 void World_map::build_map(int x_max, int y_max) {
 
-    std::vector<std::unique_ptr<Zone>> *prev_row; // Keep a copy of the previous row
-
     // Build the container of containers...
     for (int y = 0; y < y_max; y++) {
-
         // Add a new row
         map.push_back(std::vector<std::unique_ptr<Zone>>());
-        auto row = &map.back(); // Store a reference to the row
+        std::vector<std::unique_ptr<Zone>> *row = &map.back(); // Store a reference to the row
 
-        std::unique_ptr<Zone> *prev_zone; // Keep a copy of the previous zone
-
+        Zone *prev_zone = nullptr; // Keep a copy of the previous zone
         for (int x = 0; x < x_max; x++) {
-
+            std::cout << "X: " << x << "Y: " << y << std::endl;
             // Add a zone to the row
             row->push_back(std::unique_ptr<Zone>(new Zone()));
+            Zone *zone = row->back().get();
 
-            prev_zone = &row->back(); // Update previous zone
+
+            // Link with adjacent zones
+
+            // North/South
+            if (y > 0) {             
+                zone->n = map.at(y-1).at(x).get();
+                map.at(y-1).at(x).get()->s = zone;
+            }
+
+            // East/West
+            if (prev_zone != nullptr) {
+                zone->w = prev_zone;
+                prev_zone->e = zone;
+            }
+
+            prev_zone = row->back().get(); // Update previous zone
         }
-
-        prev_row = row; // Update previous row
     }
 }
 
