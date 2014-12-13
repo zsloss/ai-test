@@ -74,36 +74,38 @@ Zone& World_map::get_zone(int x, int y) {
 
 void World_map::build_map(int x_max, int y_max) {
 
-    // Build the container of containers...
-    for (int y = 0; y < y_max; y++) {
-        // Add a new row
-        map.push_back(std::vector<std::unique_ptr<Zone>>());
-        std::vector<std::unique_ptr<Zone>> *row = &map.back(); // Store a reference to the row
+    map.reserve(y_max); // Prevents segfault
+    typedef std::vector<std::unique_ptr<Zone>> row_type;
+    row_type *prev_row = nullptr;
 
-        Zone *prev_zone = nullptr; // Keep a copy of the previous zone
-        for (int x = 0; x < x_max; x++) {
-            std::cout << "X: " << x << "Y: " << y << std::endl;
-            // Add a zone to the row
-            row->push_back(std::unique_ptr<Zone>(new Zone()));
-            Zone *zone = row->back().get();
+    for (int y = 0; y < y_max; y++) { // ROW
+        
+        map.push_back(row_type()); // Add a new row
+        row_type &row = map.back();
+        row.reserve(x_max); // Prevents segfault
+
+        Zone *prev_zone = nullptr;
+
+        for (int x = 0; x < x_max; x++) { // ZONE
+            
+            row.push_back(std::unique_ptr<Zone>(new Zone())); // Add a new zone to the row
+            Zone &zone = *row.back();
 
 
-            // Link with adjacent zones
+            // Link with adjacent zones            
+            if (y > 0) { // North/South      
+                zone.n = &*prev_row->at(x);
+                prev_row->at(x)->s = &zone;            }
 
-            // North/South
-            if (y > 0) {             
-                zone->n = map.at(y-1).at(x).get();
-                map.at(y-1).at(x).get()->s = zone;
+            
+            if (prev_zone != nullptr) { // East/West
+                zone.w = prev_zone;
+                prev_zone->e = &zone;
             }
 
-            // East/West
-            if (prev_zone != nullptr) {
-                zone->w = prev_zone;
-                prev_zone->e = zone;
-            }
-
-            prev_zone = row->back().get(); // Update previous zone
+            prev_zone = row.back().get(); // Update previous zone
         }
+        prev_row = &row; // Update previous row
     }
 }
 
