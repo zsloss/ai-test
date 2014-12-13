@@ -22,7 +22,7 @@ std::unordered_set<int> Environment::get_people() {
     return zone->get_people(); // returns a _COPY_
 }
 
-void Environment::add_speech(int spk, std::string cat, std::string cont, int tgt) {    
+void Environment::add_speech(const int spk, const std::string cat, const std::string cont, const int tgt) {    
     speech.emplace_back(spk, cat, cont, tgt);
     std::cout << People::get_name(spk) << ": \"" << cont << "\"" << std::endl;
 }
@@ -46,11 +46,11 @@ Zone* Zone::west() { return w; }
 
 Environment& Zone::get_environment() { return *env; }
 
-void Zone::add_person(int p_id) {
+void Zone::add_person(const int p_id) {
 	people.insert(p_id);
 }
 
-void Zone::remove_person(int p_id) {
+void Zone::remove_person(const int p_id) {
 	people.erase(p_id);
 }
 
@@ -62,17 +62,17 @@ void Zone::update() {
 
 // WORLD MAP
 
-World_map::World_map(int x_max, int y_max) {
+World_map::World_map(const int x_max, const int y_max) {
     build_map(x_max, y_max);    
 }
 
 World_map::~World_map() = default;
 
-Zone& World_map::get_zone(int x, int y) {
+Zone& World_map::get_zone(const int x, const int y) {
     return *(map.at(y).at(x));
 }
 
-void World_map::build_map(int x_max, int y_max) {
+void World_map::build_map(const int x_max, const int y_max) {
 
     map.reserve(y_max); // Prevents segfault
     typedef std::vector<std::unique_ptr<Zone>> row_type;
@@ -93,12 +93,12 @@ void World_map::build_map(int x_max, int y_max) {
 
 
             // Link with adjacent zones            
-            if (y > 0) { // North/South      
+            if (prev_row) { // North/South      
                 zone.n = &*prev_row->at(x);
                 prev_row->at(x)->s = &zone;            }
 
             
-            if (prev_zone != nullptr) { // East/West
+            if (prev_zone) { // East/West
                 zone.w = prev_zone;
                 prev_zone->e = &zone;
             }
@@ -119,7 +119,7 @@ World::~World() {
     
 }
 
-void World::add_people(int n) {
+void World::add_people(const int n) {
 	for (int i = 0; i < n; i++)
 		people.emplace_back(new Person(map.get_zone(0,0)));
 }
